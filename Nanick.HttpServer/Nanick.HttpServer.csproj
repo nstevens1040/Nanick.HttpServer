@@ -11,7 +11,6 @@
     <None Remove="lib\Execute.HttpRequest.Core.dll" />
     <None Remove="lib\HtmlAgilityPack.dll" />
     <None Remove="lib\MimeKit.dll" />
-    <None Remove="lib\Mono.Posix.dll" />
     <None Remove="lib\Newtonsoft.Json.dll" />
   </ItemGroup>
 
@@ -19,7 +18,6 @@
     <EmbeddedResource Include="lib\Execute.HttpRequest.Core.dll" />
     <EmbeddedResource Include="lib\HtmlAgilityPack.dll" />
     <EmbeddedResource Include="lib\MimeKit.dll" />
-    <EmbeddedResource Include="lib\Mono.Posix.dll" />
     <EmbeddedResource Include="lib\Newtonsoft.Json.dll" />
   </ItemGroup>
 
@@ -32,9 +30,6 @@
     </Reference>
     <Reference Include="MimeKit">
       <HintPath>lib\MimeKit.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Posix">
-      <HintPath>lib\Mono.Posix.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>lib\Newtonsoft.Json.dll</HintPath>
