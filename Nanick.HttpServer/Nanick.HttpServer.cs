@@ -15,6 +15,7 @@
     using MimeKit;
     using Mono.Unix.Native;
     using Execute;
+    using System.Reflection;
     public class HttpServer
     {
         public static byte[] ReadFully(Stream input)
@@ -94,6 +95,17 @@
         public HttpListener Listener;
         public HttpServer()
         {
+            System.AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+            {
+                string resourceName = new AssemblyName(args.Name).Name + ".dll";
+                string resource = Array.Find(this.GetType().Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
+                {
+                    Byte[] assemblyData = new Byte[stream.Length];
+                    stream.Read(assemblyData, 0, assemblyData.Length);
+                    return Assembly.Load(assemblyData);
+                }
+            };
             string computername = GetHostname();
             string ipv4 = GetIPAddress();
             string pubip = GetPubIP();
@@ -597,6 +609,17 @@
         static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 4);
         public static async Task Start()
         {
+            System.AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+            {
+                string resourceName = new AssemblyName(args.Name).Name + ".dll";
+                string resource = Array.Find(typeof(Init).Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
+                {
+                    Byte[] assemblyData = new Byte[stream.Length];
+                    stream.Read(assemblyData, 0, assemblyData.Length);
+                    return Assembly.Load(assemblyData);
+                }
+            };
             HttpServer httpServer = new HttpServer();
             httpServer.Listener.Start();
             while (true)
@@ -625,6 +648,17 @@
     {
         public static void Main()
         {
+            System.AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+            {
+                string resourceName = new AssemblyName(args.Name).Name + ".dll";
+                string resource = Array.Find(typeof(Program).Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
+                {
+                    Byte[] assemblyData = new Byte[stream.Length];
+                    stream.Read(assemblyData, 0, assemblyData.Length);
+                    return Assembly.Load(assemblyData);
+                }
+            };
             if (Syscall.geteuid() != 0)
             {
                 throw new UnauthorizedAccessException();
